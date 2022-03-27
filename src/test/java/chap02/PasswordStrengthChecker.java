@@ -4,22 +4,15 @@ public class PasswordStrengthChecker {
 
     public PasswordStrength checker(String s) {
         if (s == null || s.isEmpty()) return PasswordStrength.INVALID;
-        boolean lengthEnough = s.length() >= 8;
-        boolean containsNum = CheckContainingNumberCriteria(s);
-        boolean containsUpp = CheckContainingUppercaseCriteria(s);
+        int checkCounts = 0;
 
-        if (lengthEnough && !containsNum && !containsUpp)
-            return PasswordStrength.WEAK;
-        if (!lengthEnough && containsNum && !containsUpp)
-            return PasswordStrength.WEAK;
-        if (!lengthEnough && !containsNum && containsUpp)
-            return PasswordStrength.WEAK;
+        if (s.length() >= 8) checkCounts++;
+        if (CheckContainingNumberCriteria(s)) checkCounts++;
+        if (CheckContainingUppercaseCriteria(s)) checkCounts++;
 
-        if (!lengthEnough) {
-            return PasswordStrength.NORMAL;
-        }
-        if (!containsNum) return PasswordStrength.NORMAL;
-        if (!containsUpp) return PasswordStrength.NORMAL;
+        if (checkCounts == 1) return PasswordStrength.WEAK;
+        if (checkCounts == 2) return PasswordStrength.NORMAL;
+
         return PasswordStrength.STRONG;
     }
 
