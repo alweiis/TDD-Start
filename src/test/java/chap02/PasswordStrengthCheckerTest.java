@@ -6,30 +6,27 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PasswordStrengthCheckerTest {
 
+    private PasswordStrengthChecker checker = new PasswordStrengthChecker();
+
+    private void assertStrength(String password, PasswordStrength expStr) {
+        PasswordStrength result = this.checker.checker(password);
+        assertEquals(expStr, result);
+    }
+
     @Test
     void 모든_규칙을_통과하는_경우() {
-        PasswordStrengthChecker checker = new PasswordStrengthChecker();
-        PasswordStrength result = checker.checker("ab12!@AB");
-        assertEquals(PasswordStrength.STRONG, result);
-
-        PasswordStrength result2 = checker.checker("abc1!Add");
-        assertEquals(PasswordStrength.STRONG, result2);
+        assertStrength("ab12!@AB", PasswordStrength.STRONG);
+        assertStrength("ab12!@AB", PasswordStrength.STRONG);
     }
 
     @Test
     void 길이만_8글자_미만이고_나머지_조건은_충족하는_경우() {
-        PasswordStrengthChecker checker = new PasswordStrengthChecker();
-        PasswordStrength result = checker.checker("ab12!@A");
-        assertEquals(PasswordStrength.NORMAL, result);
-
-        PasswordStrength result2 = checker.checker("Ab12!c");
-        assertEquals(PasswordStrength.NORMAL, result2);
+        assertStrength("ab12!@A", PasswordStrength.NORMAL);
+        assertStrength("Ab12!c", PasswordStrength.NORMAL);
     }
 
     @Test
     void 숫자를_포함하지_않고_나머지_조건은_충족하는_경우() {
-        PasswordStrengthChecker checker = new PasswordStrengthChecker();
-        PasswordStrength result = checker.checker("ab!@ABqwer");
-        assertEquals(PasswordStrength.NORMAL, result);
+        assertStrength("ab!@ABqwer", PasswordStrength.NORMAL);
     }
 }
