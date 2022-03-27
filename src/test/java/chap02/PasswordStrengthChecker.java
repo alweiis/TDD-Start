@@ -4,16 +4,19 @@ public class PasswordStrengthChecker {
 
     public PasswordStrength checker(String s) {
         if (s == null || s.isEmpty()) return PasswordStrength.INVALID;
-        int checkCounts = 0;
-
-        if (s.length() >= 8) checkCounts++;
-        if (CheckContainingNumberCriteria(s)) checkCounts++;
-        if (CheckContainingUppercaseCriteria(s)) checkCounts++;
-
-        if (checkCounts == 1) return PasswordStrength.WEAK;
+        int checkCounts = getCheckedCriteriaCounts(s);
+        if (checkCounts <= 1) return PasswordStrength.WEAK;
         if (checkCounts == 2) return PasswordStrength.NORMAL;
 
         return PasswordStrength.STRONG;
+    }
+
+    private int getCheckedCriteriaCounts(String s) {
+        int checkCounts = 0;
+        if (s.length() >= 8) checkCounts++;
+        if (CheckContainingNumberCriteria(s)) checkCounts++;
+        if (CheckContainingUppercaseCriteria(s)) checkCounts++;
+        return checkCounts;
     }
 
     private boolean CheckContainingUppercaseCriteria(String s) {
