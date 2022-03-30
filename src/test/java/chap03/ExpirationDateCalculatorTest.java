@@ -1,6 +1,5 @@
 package chap03;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -90,6 +89,15 @@ public class ExpirationDateCalculatorTest {
                         .payAmount(20_000)
                         .build(),
                 LocalDate.of(2019, 4, 30)
+        );
+
+        assertExpirationDate(
+                PayData.builder()
+                        .firstBillingDate(LocalDate.of(2019, 3, 31))
+                        .billingDate(LocalDate.of(2019, 4, 30))
+                        .payAmount(30_000)
+                        .build(),
+                LocalDate.of(2019, 7, 31)
         );
     }
 
