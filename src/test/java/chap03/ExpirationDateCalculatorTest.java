@@ -18,20 +18,25 @@ public class ExpirationDateCalculatorTest {
 
     @Test
     void 만원_납부하면_한달_뒤가_만료일이_됨() {
-        LocalDate billingDate = LocalDate.of(2022, 3, 1);
-        int payAmount = 10_000;
+        assertExpirationDate(PayData.builder()
+                        .billingDate(LocalDate.of(2019, 3, 1))
+                        .payAmount(10_000)
+                        .build(),
+                        LocalDate.of(2019, 4, 1));
+    }
 
+    @Test
+    void 납부일과_한달_뒤_일자가_같지_않음() {
+        assertExpirationDate(PayData.builder()
+                        .billingDate(LocalDate.of(2019, 1, 31))
+                        .payAmount(10_000)
+                        .build(),
+                        LocalDate.of(2019, 2, 28));
+    }
+
+    private void assertExpirationDate(PayData payData, LocalDate expectedExpirationDate) {
         ExpirationDateCalculator cal = new ExpirationDateCalculator();
-        LocalDate expirationDate = cal.calculateExpirationDate(billingDate, payAmount);
-
-        assertEquals(LocalDate.of(2022, 4, 1), expirationDate);
-
-        LocalDate billingDate2 = LocalDate.of(2022, 5, 5);
-        int payAmount2 = 10_000;
-
-        ExpirationDateCalculator cal2 = new ExpirationDateCalculator();
-        LocalDate expirationDate2 = cal.calculateExpirationDate(billingDate2, payAmount2);
-
-        assertEquals(LocalDate.of(2022, 6, 5), expirationDate2);
+        LocalDate realExpirationDate = cal.calculateExpirationDate(payData);
+        assertEquals(expectedExpirationDate, realExpirationDate);
     }
 }

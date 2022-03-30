@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class ExpirationDateCalculator {
 
-    public LocalDate calculateExpirationDate(LocalDate billingDate, int payAmount) {
-        return billingDate.plusMonths(1);
+    public LocalDate calculateExpirationDate(PayData payData) {
+        return payData.getBillingDate().plusMonths(1);
     }
 }
